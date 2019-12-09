@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="../sample/sample.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Page2">
+   <children>
+      <MenuBar fx:id="bars" prefHeight="25.0" prefWidth="606.0">
+        <menus>
+
+        </menus>
+      </MenuBar>
+      <ScrollPane layoutY="25.0" prefHeight="385.0" prefWidth="480.0">
+         <content>
+            <TableView fx:id="barangs" prefHeight="384.0" prefWidth="469.0">
+                <columns>
+
+                </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Pane layoutX="479.0" layoutY="25.0" prefHeight="385.0" prefWidth="127.0">
+         <children>
+            <Button fx:id="kasirinput" layoutX="11.0" layoutY="35.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="106.0" text="Tambah kasir" />
+            <Label layoutX="14.0" layoutY="14.0" text="Menu" />
+            <Button layoutX="11.0" layoutY="83.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="106.0" text="Cetak resi" />
+            <Button layoutX="11.0" layoutY="133.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="106.0" text="Data resi" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

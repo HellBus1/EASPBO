@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="parentAnchor" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" stylesheets="/sample/sample.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Page">
+
+      <TextField fx:id="username" layoutX="204.0" layoutY="174.0" prefHeight="31.0" prefWidth="208.0" promptText="Username" />
+      <PasswordField fx:id="password" layoutX="204.0" layoutY="212.0" prefHeight="31.0" prefWidth="208.0" promptText="Password" />
+      <Label alignment="CENTER" layoutX="179.0" layoutY="56.0" prefHeight="74.0" prefWidth="257.0" text="simplePos.co">
+         <font>
+            <Font name="Arial Black" size="26.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="190.0" layoutY="130.0" prefHeight="25.0" prefWidth="236.0" text="Pencatatan resi jadi lebih mudah">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Button fx:id="masuk" layoutX="204.0" layoutY="256.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="72.0" text="Masuk" />
+      <Button fx:id="signup" layoutX="340.0" layoutY="256.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="72.0" text="Daftar" />
+   <MenuBar fx:id="menubar" layoutX="-9.0" layoutY="1.0" prefHeight="25.0" prefWidth="622.0">
+     <menus>
+     </menus>
+   </MenuBar>
+   
+</AnchorPane>

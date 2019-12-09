@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="300" prefWidth="400" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea editable="false" layoutX="27.0" layoutY="21.0" prefHeight="258.0" prefWidth="345.0" text="&#10;&#10;About the Developer, &#10;&#10;Name  :  Syubban Fakhriya&#10;NRP    :  05111840000042&#10;Class   :  PBO-A&#10;&#10;For other information you can ask me via line &#10;syubban23, keep on eye on my repository &#10;for new apps and software. Happy coding!.">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></TextArea>
+   </children>
+</AnchorPane>
