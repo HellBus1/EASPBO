@@ -30,18 +30,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        System.out.println("this is a test string");
-        try (Stream<Path> walk = Files.walk(Paths.get(""))) {
-
-            List<String> result = walk.filter(Files::isRegularFile)
-                    .map(x -> x.toString()).collect(Collectors.toList());
-    
-            result.forEach(System.out::println);
-    
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    
         launch(args);
     }
 }

@@ -6,16 +6,17 @@
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BuatBayar">
    <children>
       <Label layoutX="24.0" layoutY="38.0" prefHeight="44.0" prefWidth="95.0" text="Kode barang" />
-      <Label layoutX="23.0" layoutY="91.0" prefHeight="27.0" prefWidth="73.0" text="Nama barang" />
-      <Label layoutX="24.0" layoutY="138.0" prefHeight="27.0" prefWidth="56.0" text="Harga" />
-      <Label layoutX="24.0" layoutY="183.0" prefHeight="27.0" prefWidth="56.0" text="Jumlah" />
-      <Label layoutX="22.0" layoutY="228.0" prefHeight="34.0" prefWidth="62.0" text="Total Harga" />
+      <Label layoutX="23.0" layoutY="91.0" prefHeight="27.0" prefWidth="73.0" text="Jumlah"/>
+      <Label layoutX="24.0" layoutY="138.0" prefHeight="27.0" prefWidth="56.0" text="Harga"/>
+      <Label layoutX="24.0" layoutY="183.0" prefHeight="27.0" prefWidth="56.0" text="Nama barang" />
+      <Label layoutX="22.0" layoutY="228.0" prefHeight="34.0" prefWidth="62.0" text="Total Harga"/>
       <TextField fx:id="kodebarangs" layoutX="126.0" layoutY="48.0" />
-      <TextField fx:id="namabarang" layoutX="126.0" layoutY="92.0" />
-      <TextField fx:id="hargabarang" layoutX="126.0" layoutY="139.0" />
-      <TextField fx:id="jumlahbarang" layoutX="126.0" layoutY="184.0" />
-      <TextField fx:id="totalharga" layoutX="126.0" layoutY="233.0" />
-      <Button fx:id="cetak" layoutX="22.0" layoutY="277.0" mnemonicParsing="false" text="Cetak" />
-      <Button fx:id="total" layoutX="94.0" layoutY="277.0" mnemonicParsing="false" text="Total" />
+      <TextField fx:id="jumlahbarang" layoutX="126.0" layoutY="92.0" />
+      <Button fx:id="checkbarang" layoutX="300.0" layoutY="92.0" mnemonicParsing="false" text="Check" />
+      <TextField fx:id="hargabarang" layoutX="126.0" layoutY="139.0" disable="true"/>
+      <TextField fx:id="namabarang" layoutX="126.0" layoutY="184.0" disable="true"/>
+      <TextField fx:id="totalharga" layoutX="126.0" layoutY="233.0" disable="true"/>
+      <Button fx:id="tambahtransaksi" layoutX="22.0" layoutY="277.0" mnemonicParsing="false" text="Add Item" />
+      <Button fx:id="cetak" layoutX="22.0" layoutY="300.0" mnemonicParsing="false" text="Cetak" />
    </children>
 </AnchorPane>
