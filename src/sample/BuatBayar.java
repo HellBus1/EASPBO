@@ -2,17 +2,16 @@ package sample;
 
 import barang.BarangPojo;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
+import javax.print.DocPrintJob;
+import javax.print.event.PrintJobAdapter;
+import javax.print.event.PrintJobEvent;
+import javax.swing.*;
+import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BuatBayar {
     @FXML
@@ -63,12 +62,29 @@ public class BuatBayar {
                 final_string.append(kodebarang).append("\t").append(jumlahbarangs).append("\t").append(hargabarangs).append(" \t").append(totalhargas).append("\t").append(namabarangs).append("\n");
             }
             final_string.append("\nTotal Harga: ").append(jumlah_total_harga);
-            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+
+            ButtonType print_button = new ButtonType("Print", ButtonBar.ButtonData.OK_DONE);
+            ButtonType ok_button = new ButtonType("Ok", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION, final_string.toString(), print_button, ok_button);
             a.setTitle("Nota : ");
-            a.setContentText(final_string.toString());
-            a.show();
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.orElse(ok_button) == print_button) {
+                print(final_string.toString());
+            }
             listTransaksi = new ArrayList<>();
         });
+
+    }
+    private void print(String print_text) {
+        JTextPane textPane = new JTextPane();
+
+        textPane.setText(print_text);
+
+        try {
+            textPane.print();
+        } catch (PrinterException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -88,3 +104,40 @@ public class BuatBayar {
         }
     }
 }
+
+class PrintJobWatcher {
+    boolean done = false;
+
+    PrintJobWatcher(DocPrintJob job) {
+        job.addPrintJobListener(new PrintJobAdapter() {
+            public void printJobCanceled(PrintJobEvent pje) {
+                allDone();
+            }
+            public void printJobCompleted(PrintJobEvent pje) {
+                allDone();
+            }
+            public void printJobFailed(PrintJobEvent pje) {
+                allDone();
+            }
+            public void printJobNoMoreEvents(PrintJobEvent pje) {
+                allDone();
+            }
+            void allDone() {
+                synchronized (PrintJobWatcher.this) {
+                    done = true;
+                    System.out.println("Printing done ...");
+                    PrintJobWatcher.this.notify();
+                }
+            }
+        });
+    }
+    public synchronized void waitForDone() {
+        try {
+            while (!done) {
+                wait();
+            }
+        } catch (InterruptedException e) {
+        }
+    }
+}
+
