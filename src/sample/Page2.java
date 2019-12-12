@@ -1,6 +1,12 @@
 package sample;
 
 import barang.BarangPojo;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import connection_utils.ConnectionUtils;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,10 +16,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Page2 {
+public class Page2 extends Application {
     @FXML
     MenuBar bars;
     @FXML
@@ -21,14 +28,22 @@ public class Page2 {
     @FXML
     Button kasirinput, daftarbarang;
 
-    public List<BarangPojo> getBarangPojos() {
+    /*public List<BarangPojo> getBarangPojos() {
         return barangPojos;
+    }*/
+    ObservableList<BarangPojo> data = FXCollections.observableArrayList();
+    public ObservableList<BarangPojo> getBarangPojos(){
+        return data;
     }
 
-    List<BarangPojo> barangPojos;
+    private Connection connection = null;
+    private PreparedStatement preparedStatement = null;
+    private boolean resultSet;
+    //List<BarangPojo> barangPojos;
 
     public void initialize(){
-        barangPojos = new ArrayList<>();
+        connection = ConnectionUtils.createConnect();
+        //barangPojos = new ArrayList<>();
         Menu menu1 = new Menu("File");
         MenuItem item1 = new MenuItem("Exit");
         item1.setOnAction(event -> {
@@ -64,18 +79,17 @@ public class Page2 {
         barangs.getColumns().addAll(codecolumn, barangcolumn, hargacolumn );
 
 
-        BarangPojo barang1 = new BarangPojo("Cabai rawit", "A001", 10000);
-        barangPojos.add(barang1);
-        BarangPojo barang2 = new BarangPojo("Bawang Putih", "A002", 5000);
-        barangPojos.add(barang2);
-        BarangPojo barang3 = new BarangPojo("Bawang Merah", "A003", 4000);
-        barangPojos.add(barang3);
-        BarangPojo barang4 = new BarangPojo("Gula Pasir", "A004", 11000);
-        barangPojos.add(barang4);
-        BarangPojo barang5 = new BarangPojo("Kelapa", "A005", 10000);
-        barangPojos.add(barang5);
+//        BarangPojo barang1 = new BarangPojo("Cabai rawit", "A001", 10000);
+//        barangPojos.add(barang1);
+//        BarangPojo barang2 = new BarangPojo("Bawang Putih", "A002", 5000);
+//        barangPojos.add(barang2);
+//        BarangPojo barang3 = new BarangPojo("Bawang Merah", "A003", 4000);
+//        barangPojos.add(barang3);
+//        BarangPojo barang4 = new BarangPojo("Gula Pasir", "A004", 11000);
+//        barangPojos.add(barang4);
+//        BarangPojo barang5 = new BarangPojo("Kelapa", "A005", 10000);
+//        barangPojos.add(barang5);
         System.out.println("before barang");
-        barangs.getItems().addAll(barangPojos);
 
         kasirinput.setOnAction(event -> {
             startBayar();
@@ -99,6 +113,25 @@ public class Page2 {
 
     }
 
+    private void buat_barang(){
+        String sql_syntax = "SELECT nama_barangs, kode_barangs, harga_barangs FROM barang_javaku";
+
+        try{
+            preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
+            resultSet = preparedStatement.execute();
+            ResultSet temp = preparedStatement.executeQuery();
+            while (temp.next()) {
+                String nam = temp.getString("nama_barangs");
+                String kode = temp.getString("kode_barangs");
+                int harga = Integer.parseInt(temp.getString("harga_barangs"));
+                data.add(new BarangPojo(nam, kode, harga));
+            }
+            data.removeAll();
+            barangs.getItems().addAll(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     //c
     private void startBayar(){
         //Load second scene
@@ -112,7 +145,6 @@ public class Page2 {
             BuatBayar controller =
                     loader.<BuatBayar>getController();
             controller.initData(this);
-
             stage.show();
         }catch (Exception e) {
             e.printStackTrace();
@@ -121,24 +153,72 @@ public class Page2 {
 
     //update untuk CRUD barang
     public void updateBarang(String... strings) {
-        for(BarangPojo barangPojo : barangPojos) {
-            if (barangPojo.getKode_barang().equals(strings[0])) {
-                barangPojo.setNama_barang(strings[1]);
-                barangPojo.setHarga_barang(Integer.parseInt(strings[2]));
-                barangs.refresh();
-                break;
+//        for(BarangPojo barangPojo : barangPojos) {
+//            if (barangPojo.getKode_barang().equals(strings[0])) {
+//                barangPojo.setNama_barang(strings[1]);
+//                barangPojo.setHarga_barang(Integer.parseInt(strings[2]));
+//                barangs.refresh();
+//                break;
+//            }
+//        }
+        if (strings != null){
+            String sql_syntax = "UPDATE barang_javaku SET nama_barangs = ?, kode_barangs = ?, " +
+                    "harga_barangs = ? WHERE  kode_barangs = ?";
+
+            try{
+                preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
+                preparedStatement.setString(1, strings[1]);
+                preparedStatement.setString(2, strings[0]);
+                preparedStatement.setString(3, strings[2]);
+                preparedStatement.setString(4, strings[0]);
+                resultSet = preparedStatement.execute();
+                int count = preparedStatement.executeUpdate();
+                if (count >= 0){
+                    buat_barang();
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Update data Success",ButtonType.OK);
+                    a.setTitle("Information");
+                    a.show();
+                }else{
+                    Alert a = new Alert(Alert.AlertType.ERROR,"Update Failed",ButtonType.OK);
+                    a.setTitle("Error");
+                    a.show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
 
     //remove untuk CRUD barang
     public void removeBarang(String kode_barang) {
-        for (BarangPojo barangPojo : barangPojos) {
+        /*for (BarangPojo barangPojo : barangPojos) {
             if (barangPojo.getKode_barang().equals(kode_barang)) {
                 barangPojos.remove(barangPojo);
                 barangs.getItems().clear();
                 barangs.getItems().addAll(barangPojos);
                 break;
+            }
+        }*/
+        if (kode_barang != null){
+            String sql_syntax = "DELETE FROM barang_javaku WHERE kode_barangs = ?";
+
+            try{
+                preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
+                preparedStatement.setString(1, kode_barang);
+                resultSet = preparedStatement.execute();
+                int count = preparedStatement.executeUpdate();
+                if (count >= 0){
+                    buat_barang();
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Delete data success",ButtonType.OK);
+                    a.setTitle("Information");
+                    a.show();
+                }else{
+                    Alert a = new Alert(Alert.AlertType.ERROR,"Data record is blank or false kode barang",ButtonType.OK);
+                    a.setTitle("Error");
+                    a.show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
@@ -146,14 +226,42 @@ public class Page2 {
     //create untuk CRUD barang
     public void createBarang(String... strings) {
         //check for code and name duplicates
-        for (BarangPojo barangPojo : barangPojos) {
+        /*for (BarangPojo barangPojo : barangPojos) {
             if (barangPojo.getKode_barang().equals(strings[0]) || barangPojo.getNama_barang().equals(strings[1])) {
                 return;
             }
+        }*/
+        //barangPojos.add(new BarangPojo(strings[1], strings[0], Integer.parseInt(strings[2])));
+        //barangs.getItems().clear();
+        //barangs.getItems().addAll(barangPojos);
+        if (strings != null){
+            String sql_syntax = "INSERT INTO barang_javaku(nama_barangs, kode_barangs, harga_barangs) VALUES(?, ?, ?)";
+
+            try{
+                preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
+                preparedStatement.setString(1, strings[0]);
+                preparedStatement.setString(2, strings[1]);
+                preparedStatement.setString(3, strings[2]);
+                resultSet = preparedStatement.execute();
+                int count = preparedStatement.executeUpdate();
+                if (count > 0){
+                    buat_barang();
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Insert data success",ButtonType.OK);
+                    a.setTitle("Information");
+                    a.show();
+                }else{
+                    Alert a = new Alert(Alert.AlertType.ERROR,"Something wrong",ButtonType.OK);
+                    a.setTitle("Error");
+                    a.show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
-        barangPojos.add(new BarangPojo(strings[1], strings[0], Integer.parseInt(strings[2])));
-        barangs.getItems().clear();
-        barangs.getItems().addAll(barangPojos);
     }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        initialize();
+    }
 }

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="parentAnchor" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" stylesheets="/sample/sample.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Page">
+<AnchorPane fx:id="parentAnchor" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" stylesheets="/css/sample.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Page">
 
       <TextField fx:id="username" layoutX="204.0" layoutY="174.0" prefHeight="31.0" prefWidth="208.0" promptText="Username" />
       <PasswordField fx:id="password" layoutX="204.0" layoutY="212.0" prefHeight="31.0" prefWidth="208.0" promptText="Password" />
