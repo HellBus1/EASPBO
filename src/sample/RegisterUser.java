@@ -49,7 +49,7 @@ public class RegisterUser {
                         preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
                         preparedStatement.setString(1, user);
                         preparedStatement.setString(2, passworda);
-                        resultSet = preparedStatement.execute();
+                        //resultSet = preparedStatement.execute();
                         int count = preparedStatement.executeUpdate();
                         if (count > 0){
                             Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Success, please login",ButtonType.OK);

@@ -84,7 +84,6 @@ public class Page {
                         a.setTitle("Information");
                         a.show();
                     }
-                    connection.close();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
