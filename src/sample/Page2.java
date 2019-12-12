@@ -121,15 +121,23 @@ public class Page2 extends Application {
             preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
             resultSet = preparedStatement.execute();
             ResultSet temp = preparedStatement.executeQuery();
+<<<<<<< HEAD
             data.clear();
             data.removeAll();
+=======
+>>>>>>> 5fa293b821e01a91d07002d3a2748ceddf2ec534
             while (temp.next()) {
                 String nam = temp.getString("nama_barangs");
                 String kode = temp.getString("kode_barangs");
                 int harga = Integer.parseInt(temp.getString("harga_barangs"));
                 data.add(new BarangPojo(nam, kode, harga));
             }
+<<<<<<< HEAD
             barangs.setItems(data);
+=======
+            data.removeAll();
+            barangs.getItems().addAll(data);
+>>>>>>> 5fa293b821e01a91d07002d3a2748ceddf2ec534
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -163,6 +171,7 @@ public class Page2 extends Application {
 //                break;
 //            }
 //        }
+<<<<<<< HEAD
         System.out.println(strings[0]);
         if (strings != null){
             String sql_syntax = "UPDATE barang_javaku SET nama_barangs = ?, harga_barangs = ? WHERE  kode_barangs = ?";
@@ -177,6 +186,22 @@ public class Page2 extends Application {
                 if (count >= 0){
                     buat_barang();
                     barangs.refresh();
+=======
+        if (strings != null){
+            String sql_syntax = "UPDATE barang_javaku SET nama_barangs = ?, kode_barangs = ?, " +
+                    "harga_barangs = ? WHERE  kode_barangs = ?";
+
+            try{
+                preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
+                preparedStatement.setString(1, strings[1]);
+                preparedStatement.setString(2, strings[0]);
+                preparedStatement.setString(3, strings[2]);
+                preparedStatement.setString(4, strings[0]);
+                resultSet = preparedStatement.execute();
+                int count = preparedStatement.executeUpdate();
+                if (count >= 0){
+                    buat_barang();
+>>>>>>> 5fa293b821e01a91d07002d3a2748ceddf2ec534
                     Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Update data Success",ButtonType.OK);
                     a.setTitle("Information");
                     a.show();
@@ -207,11 +232,18 @@ public class Page2 extends Application {
             try{
                 preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
                 preparedStatement.setString(1, kode_barang);
+<<<<<<< HEAD
                 //resultSet = preparedStatement.execute();
                 int count = preparedStatement.executeUpdate();
                 if (count >= 0){
                     buat_barang();
                     barangs.refresh();
+=======
+                resultSet = preparedStatement.execute();
+                int count = preparedStatement.executeUpdate();
+                if (count >= 0){
+                    buat_barang();
+>>>>>>> 5fa293b821e01a91d07002d3a2748ceddf2ec534
                     Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Delete data success",ButtonType.OK);
                     a.setTitle("Information");
                     a.show();
@@ -245,11 +277,18 @@ public class Page2 extends Application {
                 preparedStatement.setString(1, strings[0]);
                 preparedStatement.setString(2, strings[1]);
                 preparedStatement.setString(3, strings[2]);
+<<<<<<< HEAD
                 //resultSet = preparedStatement.execute();
                 int count = preparedStatement.executeUpdate();
                 if (count > 0){
                     buat_barang();
                     barangs.refresh();
+=======
+                resultSet = preparedStatement.execute();
+                int count = preparedStatement.executeUpdate();
+                if (count > 0){
+                    buat_barang();
+>>>>>>> 5fa293b821e01a91d07002d3a2748ceddf2ec534
                     Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Insert data success",ButtonType.OK);
                     a.setTitle("Information");
                     a.show();
