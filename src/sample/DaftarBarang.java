@@ -28,7 +28,7 @@ public class DaftarBarang {
             String kode_barang = kodebarang.getText();
             String nama_barang = namabarang.getText();
             String harga_barang = hargabarang.getText();
-            page2.createBarang(kode_barang, nama_barang, harga_barang);
+            page2.createBarang(nama_barang, kode_barang, harga_barang);
             kodebarang.setText("");
             namabarang.setText("");
             hargabarang.setText("");
@@ -38,7 +38,7 @@ public class DaftarBarang {
             String kode_barang = kodebarang.getText();
             String nama_barang = namabarang.getText();
             String harga_barang = hargabarang.getText();
-            page2.updateBarang(kode_barang, nama_barang, harga_barang);
+            page2.updateBarang(nama_barang, kode_barang,  harga_barang);
             kodebarang.setText("");
             namabarang.setText("");
             hargabarang.setText("");
@@ -68,6 +68,7 @@ public class DaftarBarang {
                 break;
             }
         }
+
     }
 
 }

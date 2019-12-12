@@ -106,7 +106,7 @@ public class BuatBayar {
 }
 
 class PrintJobWatcher {
-    boolean done = false;
+    private boolean done = false;
 
     PrintJobWatcher(DocPrintJob job) {
         job.addPrintJobListener(new PrintJobAdapter() {

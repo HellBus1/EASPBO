@@ -1,27 +1,19 @@
 package sample;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import connection_utils.ConnectionUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.sql.ResultSet;
 
 public class Page {
     @FXML
@@ -34,6 +26,10 @@ public class Page {
     PasswordField password;
     @FXML
     Button masuk, signup;
+
+    private Connection connection = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet;
 
     private void openSecondScene(){
         try {
@@ -48,15 +44,59 @@ public class Page {
         }
     }
 
+    public void openRegisterScene(){
+        FXMLLoader pnlOnes = new FXMLLoader(this.getClass().getResource("../layout/BuatRegister.fxml"));
+        Parent root = null;
+        try {
+            root = pnlOnes.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root, 600, 400));
+        stage.setTitle("Pendaftaran");
+        stage.resizableProperty().setValue(false);
+        stage.getIcons().add(new Image("drawable/inventory.png"));
+        stage.show();
+    }
+
     public void initialize(){
+        connection = ConnectionUtils.createConnect();
+
         masuk.setOnAction(event -> {
-            if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
-                openSecondScene();
+            String usernames = username.getText();
+            String passwordas = password.getText();
+            if (!usernames.isEmpty() && !passwordas.isEmpty()){
+                String sql_syntax = "SELECT nama_users, password_users FROM users_javaku WHERE nama_users = ? AND password_users = ?";
+
+                try{
+                    preparedStatement = (PreparedStatement) connection.prepareStatement(sql_syntax);
+                    preparedStatement.setString(1, usernames);
+                    preparedStatement.setString(2, passwordas);
+                    resultSet = preparedStatement.executeQuery();
+                    if (resultSet.next()){
+                        Alert a = new Alert(Alert.AlertType.CONFIRMATION,"Success, please login",ButtonType.OK);
+                        a.setTitle("Information");
+                        a.show();
+                        openSecondScene();
+                    }else{
+                        Alert a = new Alert(Alert.AlertType.WARNING,"Please enter correct username and password",ButtonType.OK);
+                        a.setTitle("Information");
+                        a.show();
+                    }
+                    connection.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }else{
                 Alert a = new Alert(Alert.AlertType.NONE, "Wrong password or username",ButtonType.APPLY);
                 a.setTitle("Alert");
                 a.show();
             }
+        });
+
+        signup.setOnAction(event -> {
+            openRegisterScene();
         });
 
         Menu menu1 = new Menu("File");
